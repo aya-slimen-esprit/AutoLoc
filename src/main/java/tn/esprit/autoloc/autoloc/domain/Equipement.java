@@ -22,7 +22,9 @@ public class Equipement {
 
     String libelle;
 
-    @ManyToMany(mappedBy = "equipements")
+    @ManyToMany(
+            mappedBy = "equipements"
+    )
     List<Vehicule> vehicules = new ArrayList<>();
 
 }

@@ -35,11 +35,17 @@ public class Vehicule {
     @Enumerated(EnumType.STRING)
     StatutVehicule statut;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(
+            fetch = FetchType.EAGER
+    )
     List<Equipement> equipements = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_agence")
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(
+            name = "id_agence"
+    )
     Agence agence;
 
     @OneToMany(

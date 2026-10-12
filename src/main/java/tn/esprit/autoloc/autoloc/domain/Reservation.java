@@ -29,12 +29,20 @@ public class Reservation {
     @OneToOne(fetch = FetchType.LAZY)
     Contrat contrat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_vehicule")
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(
+            name = "id_vehicule"
+    )
     Vehicule vehicule;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_client")
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(
+            name = "id_client"
+    )
     Client client;
 
 }
