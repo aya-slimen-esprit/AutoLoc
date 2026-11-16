@@ -16,4 +16,7 @@ public interface IAgenceService {
     Agence afficherAgenceById(Long id);
 
     void supprimerAgence(Long id);
+
+    Agence ajouterAgenceEtAffecterVehicules(Agence agence);
+
 }

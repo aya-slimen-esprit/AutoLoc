@@ -1,10 +1,17 @@
 package tn.esprit.autoloc.autoloc.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import tn.esprit.autoloc.autoloc.domain.Equipement;
 import tn.esprit.autoloc.autoloc.domain.Vehicule;
+import tn.esprit.autoloc.autoloc.repository.EquipementRepository;
 import tn.esprit.autoloc.autoloc.repository.VehiculeRepository;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 @Service
 @AllArgsConstructor
@@ -37,4 +44,56 @@ public class IVehiculeServiceImp implements IVehiculeService {
         vehiculeRepository.deleteById(id);
 
     }
+
+    private final EquipementRepository equipementRepository;
+
+    @Override
+    @Transactional
+    public Vehicule affecterEquipement(Long idVehicule, Long idEquipement) {
+        Vehicule vehicule = vehiculeRepository.findById(idVehicule)
+                .orElseThrow(() -> new EntityNotFoundException("Véhicule introuvable : " + idVehicule));
+        Equipement equipement = equipementRepository.findById(idEquipement)
+                .orElseThrow(() -> new EntityNotFoundException("Équipement introuvable : " + idEquipement));
+        if (!vehicule.getEquipements().contains(equipement)) {
+            vehicule.getEquipements().add(equipement);
+        }
+        return vehiculeRepository.save(vehicule);
+    }
+
+    @Override
+    @Transactional
+    public Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement) {
+        Vehicule vehicule = vehiculeRepository.findById(idVehicule)
+                .orElseThrow(() -> new EntityNotFoundException("Véhicule introuvable : " + idVehicule));
+        vehicule.getEquipements().removeIf(e -> e.getIdEquipement().equals(idEquipement));
+        return vehiculeRepository.save(vehicule);
+    }
+
+    @Scheduled(initialDelay = 5000, fixedRate = 60000)
+    public void actualiserEtatVehicules() {
+
+        List<Vehicule> vehicules = vehiculeRepository.findAll();
+
+        System.out.println("Nombre total des véhicules : " + vehicules.size());
+
+        System.out.println("Date et heure d'actualisation : " + LocalDateTime.now());
+    }
+
+
+    @Scheduled(fixedRate = 10000)
+    public void genererRapportVehicules() {
+
+        List<Vehicule> vehicules = vehiculeRepository.findAll();
+
+        int nombreTotal = vehicules.size();
+
+        System.out.println("===== RAPPORT DES VEHICULES =====");
+
+        System.out.println("Nombre total des véhicules : " + nombreTotal);
+
+        System.out.println("Date et heure de génération : " + new Date());
+
+        System.out.println("=================================");
+    }
+
 }
