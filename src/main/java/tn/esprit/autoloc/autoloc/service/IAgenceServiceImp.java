@@ -52,9 +52,13 @@ public class IAgenceServiceImp implements IAgenceService{
     @Override
     @Transactional
     public Agence ajouterAgenceEtAffecterVehicules(Agence agence) {
-        for (Vehicule vehicule : agence.getVehicules()) {
-            vehicule.setAgence(agence);
+
+        if (agence.getVehicules() != null) {
+            for (Vehicule vehicule : agence.getVehicules()) {
+                vehicule.setAgence(agence);
+            }
         }
+
         return agenceRepository.save(agence);
     }
 

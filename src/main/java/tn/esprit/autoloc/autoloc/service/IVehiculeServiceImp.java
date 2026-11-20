@@ -62,10 +62,21 @@ public class IVehiculeServiceImp implements IVehiculeService {
 
     @Override
     @Transactional
-    public Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement) {
+    public Vehicule desaffecterEquipement(
+            Long idVehicule, Long idEquipement) {
+
         Vehicule vehicule = vehiculeRepository.findById(idVehicule)
-                .orElseThrow(() -> new EntityNotFoundException("Véhicule introuvable : " + idVehicule));
-        vehicule.getEquipements().removeIf(e -> e.getIdEquipement().equals(idEquipement));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Véhicule introuvable : " + idVehicule));
+
+        Equipement equipement = equipementRepository.findById(idEquipement)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Équipement introuvable : " + idEquipement));
+
+        vehicule.getEquipements().removeIf(
+                e -> e.getIdEquipement().equals(idEquipement)
+        );
+
         return vehiculeRepository.save(vehicule);
     }
 
