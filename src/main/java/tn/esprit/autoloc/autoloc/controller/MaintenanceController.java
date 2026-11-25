@@ -5,6 +5,7 @@
 
 package tn.esprit.autoloc.autoloc.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Generated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,5 +52,13 @@ public class MaintenanceController {
     @Generated
     public MaintenanceController(final IMaintenanceService maintenanceService) {
         this.maintenanceService = maintenanceService;
+    }
+
+    @GetMapping("/afficherEntreDeuxDates/{date1}/{date2}")
+    public List<Maintenance> afficherEntreDeuxDates(
+            @PathVariable LocalDate date1,
+            @PathVariable LocalDate date2) {
+
+        return maintenanceService.retournerMaintenancesEntreDeuxDates(date1, date2);
     }
 }

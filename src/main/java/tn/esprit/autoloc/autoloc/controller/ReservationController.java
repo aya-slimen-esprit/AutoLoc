@@ -5,6 +5,7 @@
 
 package tn.esprit.autoloc.autoloc.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Generated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,5 +52,15 @@ public class ReservationController {
     @Generated
     public ReservationController(final IReservationService reservationService) {
         this.reservationService = reservationService;
+    }
+
+    @GetMapping("/afficherApresDateDebut/{date}")
+    public List<Reservation> afficherApresDateDebut(@PathVariable LocalDate date) {
+        return reservationService.retournerReservationsApresDateDebut(date);
+    }
+
+    @GetMapping("/afficherAvantDateFin/{date}")
+    public List<Reservation> afficherAvantDateFin(@PathVariable LocalDate date) {
+        return reservationService.retournerReservationsAvantDateFin(date);
     }
 }

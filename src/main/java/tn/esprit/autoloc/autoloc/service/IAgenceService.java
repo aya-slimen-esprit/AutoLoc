@@ -19,4 +19,8 @@ public interface IAgenceService {
 
     Agence ajouterAgenceEtAffecterVehicules(Agence agence);
 
+    public List<Agence> retournerAgencesParVille(String v);
+
+    public List<Agence> retournerAgencesParNomTermine(String n);
+
 }

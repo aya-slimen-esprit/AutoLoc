@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.autoloc.domain.Reservation;
 import tn.esprit.autoloc.autoloc.repository.ReservationRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 @Service
 @AllArgsConstructor
@@ -35,5 +36,15 @@ public class IReservationServiceImp implements IReservationService {
     public void supprimerReservation(Reservation reservation) {
         reservationRepository.delete(reservation);
 
+    }
+
+    @Override
+    public List<Reservation> retournerReservationsApresDateDebut(LocalDate date) {
+        return reservationRepository.findByDateDebutAfter(date);
+    }
+
+    @Override
+    public List<Reservation> retournerReservationsAvantDateFin(LocalDate date) {
+        return reservationRepository.findByDateFinBefore(date);
     }
 }
